@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head"></head>
+
+<body>
+
+    <div class="chatPage">
+        <div class="container-fluid">
+            <div class="row content">
+                <!-- left side -->
+                <div class="col-md-2 bgColor">
+                    <div class="" th:replace="menuleft :: menuleft"></div>
+                </div>
+                <!-- chat list -->
+                <div class="col-md-3 ">
+                    <div class="" th:replace="userlist :: userlist"></div>
+                </div>
+                <!-- login form -->
+                <div class="col-md-7 centerContent chatMain">
+                    <div class="chatMessages">
+                        <div class="msgRow">
+                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                            <div class="msgLeft">
+                                <div class="msgUpper">
+                                    <div class="userName">
+                                        Aidan
+                                    </div>
+                                    <div class="time">
+                                        12:00
+                                    </div>
+                                </div>
+                                <div class="msgFull">
+                                    <div class="msg">
+                                        Hi, how are you?
+                                    </div>
+                                </div>
+                                
+
+                
+                            </div>
+                            <div class="msgSpacer"></div>
+                        </div>
+                        <div class="msgRow">
+                            <div class="msgSpacer"></div>
+                            <div class="msgRight">
+                                
+                                <div class="msgUpper">
+                                    <div class="userName">
+                                        Aidan
+                                    </div>
+                                    <div class="time">
+                                        12:00
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="msgFull">
+                                    <div class="msg">
+                                        Hi, how are you?
+                                    </div>
+                                </div>
+                
+                            </div>
+                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                        </div>
+                        <div class="msgRow">
+                            <div class="msgSpacer"></div>
+                            <div class="msgRight">
+                                
+                                <div class="msgUpper">
+                                    <div class="userName">
+                                        Aidan
+                                    </div>
+                                    <div class="time">
+                                        12:00
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="msgFull">
+                                    <div class="msg">
+                                        Hi, how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? 
+                                    </div>
+                                </div>
+                
+                            </div>
+                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                        </div>
+                       
+                    </div>
+                    <div class="sendMessage">
+                        <div class="sendMessageContent">
+                            <input type="text" class="form-control inputMessage" placeholder="Type your message here...">
+                        </div>
+                        <div class="sendMessageButton">
+                            <button type="button" class="btn btn-primary">Send</button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div th:replace="fragments :: footer"></div> -->
+</body>
+
+</html>

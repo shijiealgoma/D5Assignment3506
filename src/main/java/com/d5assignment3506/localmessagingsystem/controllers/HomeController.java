@@ -9,8 +9,8 @@ public class HomeController {
 
     @RequestMapping(value = "/")
     public String index(Model model) {
-        model.addAttribute("message", "Hello, world!");
-        return "index";
+        model.addAttribute("title", "Login Page");
+        return "login";
     }
 
 }

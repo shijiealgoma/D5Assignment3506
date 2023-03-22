@@ -1,3 +1,248 @@
 .content{
+    min-height: 100vh;
+}
+
+.content-inner {
     min-height: 80vh;
+}
+
+.bgColor {
+    /* gradian color left top to right bottom */
+    background: linear-gradient(45deg,  #2E0FD9, #7922F0);
+}
+
+.bgColorInner {
+    /* gradian color left top to right bottom */
+    background: linear-gradient(125deg,  #CD62DB, #7c21f2);
+}
+
+.centerContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    padding: 40px;
+}
+
+.homeTitle {
+    color: #fff;
+}
+
+.homeTitle h1{
+    font-size: 6rem;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.homeTitle p{
+    font-size: 1.5rem;
+    color: #fff;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.authForm p{
+    color: #999;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+.leftMenu{
+    font-size: 18px;
+    text-align: left;
+    color: #fff;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menuTop{
+    margin-top: 50px;
+}
+
+.menuTop a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.menuItem{
+    padding: 5px 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.menuItem:hover{
+    background-color: #674FEA;
+}
+
+.userlist{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 40px 10px;
+    background: #f9f9f9;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.userRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.userInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.userName{
+    color: #000;
+    font-weight: 500;
+}
+
+.time{
+    color: #999;
+    font-weight: 300;
+}
+
+.msgUpper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.profileImg{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #dbd7f3;
+}
+
+.contact .profileImg{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background-color: #dbd7f3;
+}
+
+.msgLower{
+    max-height: 20px;
+    overflow: hidden;
+}
+
+.chatMain{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding: 20px;
+}
+
+.chatMessages{
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #eee;
+    padding: 20px;
+}
+
+.msgRow{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 20px}
+
+.msgRight, .msgLeft{
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f3;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.msgLeft{
+}
+
+.sendMessageContent{
+    width: 100%;
+}
+
+.sendMessage{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.inputMessage{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    outline: none;
+}
+
+.msgSpacer{
+    flex: 2 1 0;
+    min-width: 10vw;
+}
+
+.contact{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact button{
+    width: 200px;
+}
+
+.contact a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.btn-outline-primary a{
+    color: #0d6efd;
+}
+
+.setting{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
 }
