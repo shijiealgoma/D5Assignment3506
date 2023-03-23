@@ -1,4 +1,4 @@
-package com.d5assignment3506.localmessagingsystem.model;
+package com.d5assignment3506.localmessagingsystem.entity;
 
 import javax.persistence.*;
 
@@ -8,16 +8,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String username;
-    @Column(nullable = false)
-    private String password;
+
     @Column(nullable = false)
     private String firstName;
+
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String title;
 
     public Long getId() {
         return id;
@@ -65,6 +73,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 }

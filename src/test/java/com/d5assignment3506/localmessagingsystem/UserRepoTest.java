@@ -1,6 +1,6 @@
 package com.d5assignment3506.localmessagingsystem;
 
-import com.d5assignment3506.localmessagingsystem.model.User;
+import com.d5assignment3506.localmessagingsystem.entity.User;
 import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +26,13 @@ public class UserRepoTest {
     @Test
     public void testCreateUser() {
         User user = new User();
-        user.setEmail("test@localhost3");
+        user.setFirstName("test3");
+        user.setLastName("test3");
         user.setUsername("test3");
-        user.setPassword("test3");
-        user.setFirstName("test2");
-        user.setLastName("test1");
+        user.setPassword("test");
+        user.setEmail("test");
+        user.setTitle("test");
+
 
         User savedUser = repo.save(user);
         User existUser = entityManager.find(User.class, savedUser.getId());
