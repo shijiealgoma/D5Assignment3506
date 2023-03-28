@@ -17,30 +17,42 @@
                     <div class="setting">
                         <h1>SETTING</h1>
                         <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg mt-3">
-                        <!-- <h3 class="mt-3">Aiden Smith</h3>
+                        <form method="post" th:action="@{/update-user}" th:object="${user}">
+
+
+
+                            <!-- <h3 class="mt-3">Aiden Smith</h3>
                         <p>aiden@email.com</p>
                         <p class="mt-2">Project Manager</p>
                         <p>20, Feb. 2020 JOINED</p> -->
                         <div class="mt-2">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Name" value="Aiden Smith">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" th:field="*{firstName}" placeholder="First Name"
+                            value="Zhou"/>
                         </div>
+                        <div class="mt-2">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" th:field="*{lastName}" placeholder="Last Name"
+                            value="Tim"/>
+                        </div>
+
                         <div class="mt-2">
                             <label for="email">Email</label>
-                            <input type="text" class="form-control" id="email" placeholder="Email"
-                                value="aiden@email.com">
+                            <input type="text" class="form-control" id="email" th:field="*{email}" placeholder="Email" value="example@LMS.ca"/>
                         </div>
                         <div class="mt-2">
-                            <label for="position">Position</label>
-                            <input type="text" class="form-control" id="position" placeholder="Position"
-                                value="Project Manager">
+                            <label for="title">Position</label>
+                            <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Title"
+                            value="Manager"/>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary btn-block mt-3">Save</button>
                             </div>
+
                         </div>
+                            </form>
                     </div>
 
                 </div>
