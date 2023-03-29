@@ -11,10 +11,10 @@
         </div>
         <!-- user list -->
         <div class="userRow" th:each="user: ${allUsers}">
-            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+            <img th:src="${user.image}" alt="" class="profileImg">
             <div class="userInfo">
                 <div class="">
-                    <a th:action = "@{/userDetail}" th:object = "${user.username}" method="post">
+                    <a th:action = "@{/userDetail}" th:object = "${user.username}" th:onclick="clickUser([[${user.username}]])" method="post">
                         <span class="userName" th:text="${user.firstName}">
                             First Name
                         </span>
@@ -31,7 +31,6 @@
 <!--                        Hi, how are you?-->
 <!--                    </div>-->
                 </div>
-
             </div>
         </div>
 

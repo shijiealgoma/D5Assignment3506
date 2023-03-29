@@ -1,7 +1,6 @@
 package com.d5assignment3506.localmessagingsystem.service;
 
 import com.d5assignment3506.localmessagingsystem.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserDetail {
 

@@ -1,6 +1,9 @@
 package com.d5assignment3506.localmessagingsystem.entity;
 
+import org.hibernate.type.BlobType;
+
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +29,9 @@ public class User {
 
     @Column(nullable = false)
     private String title;
+
+    @Column(nullable = true)
+    private String image;
 
     public Long getId() {
         return id;
@@ -83,4 +89,11 @@ public class User {
         this.title = title;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
