@@ -16,11 +16,17 @@ public interface ChatRepository {
      @param messageIndex the starting index of the chat messages to retrieve
      @return a list of chat messages
      */
+    List<String> getMessages(Integer messageIndex);
+
     List<String> getMessages(int messageIndex);
+
     /**
 
      Adds a chat message to the repository.
      @param message the chat message to add
      */
     void addMessage(String message);
+
+
+    void clearMessages();
 }

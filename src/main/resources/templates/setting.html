@@ -45,8 +45,13 @@
                             <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Title"
                             value="Manager"/>
                         </div>
+                            <div class="mt-2">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="Password"/>
+                            </div>
 
-                        <div class="row">
+
+                            <div class="row">
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary btn-block mt-3">Save</button>
                             </div>

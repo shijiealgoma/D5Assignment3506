@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class SettingController {
@@ -25,44 +21,12 @@ public class SettingController {
     }
 
     @GetMapping("/setting")
-    public String showSettingPage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "setting";
-    }
-
-    @PostMapping("/update-user")
-    public String updateUser(@ModelAttribute("user") User user, Model model) {
-        // Check for null values and handle appropriately
-        if (user.getFirstName() == null) {
-            user.setFirstName("");
-            model.addAttribute("errorMsg", "First name cannot be null.");
-        }
-        if (user.getLastName() == null) {
-            user.setLastName("");
-            model.addAttribute("errorMsg", "Last name cannot be null.");
-        }
-        if (user.getEmail() == null) {
-            user.setEmail("");
-            model.addAttribute("errorMsg", "Email cannot be null.");
-        }
-        if (user.getTitle() == null) {
-            user.setTitle("");
-            model.addAttribute("errorMsg", "Title cannot be null.");
-        }
-
-        userService.save(user);
-        model.addAttribute("user", user);
+    public String showSetting(Model model) {
+        model.addAttribute("user", new User());
         return "setting";
     }
 
 
-    @GetMapping("/contact")
-    public String showContactPage(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "contact";
-    }
 
 
 }

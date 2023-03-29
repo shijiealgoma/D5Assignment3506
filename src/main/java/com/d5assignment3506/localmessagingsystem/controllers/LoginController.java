@@ -5,6 +5,7 @@ import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +30,16 @@ public class LoginController {
         return "chat";
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/registerUser")
     public String register(Model model2) {
         model2.addAttribute("title", "register Page");
         return "register";
     }
-    
+    @GetMapping("/register")
+    public String registerPage(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+
 }

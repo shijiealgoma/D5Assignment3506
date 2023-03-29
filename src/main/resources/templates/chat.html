@@ -5,122 +5,65 @@
 
 <body>
 
-    <div class="chatPage">
-        <div class="container-fluid">
-            <div class="row content">
-                <!-- left side -->
-                <div class="col-md-2 bgColor">
-                    <div class="" th:replace="menuleft :: menuleft"></div>
-                </div>
-                <!-- chat list -->
-                <div class="col-md-3 ">
-                    <div class="" th:replace="userlist :: userlist"></div>
-                </div>
+<div class="chatPage">
+    <div class="container-fluid">
+        <div class="row content">
+            <!-- left side -->
+            <div class="col-md-2 bgColor">
+                <div class="" th:replace="menuleft :: menuleft"></div>
+            </div>
+            <!-- chat list -->
+            <div class="col-md-3 ">
+                <div class="" th:replace="userlist :: userlist"></div>
+            </div>
 
-                <form id="leaveChatForm" th:action="@{/mvc/chat}" data-bind="visible: activePollingXhr() != null">
-                    <p>
-                        You're chatting as <strong data-bind="text: userName"></strong>
-                        <button id="leave" type="submit" data-bind="click: leaveChat">Leave Chat</button>
-                    </p>
-                </form>
+            <form id="leaveChatForm" th:action="@{/chat}" data-bind="visible: activePollingXhr() != null">
+                <p>
+                    You're chatting as <strong data-bind="text: userName"></strong>
+                    <button id="leave" type="submit" data-bind="click: leaveChat">Leave Chat</button>
+                </p>
+            </form>
 
-
-
-
-                <!-- login form -->
-<!--                <div class="col-md-7 centerContent chatMain">-->
-<!--                    <div class="chatMessages">-->
-<!--                        <div class="msgRow">-->
-<!--                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">-->
-<!--                            <div class="msgLeft">-->
-<!--                                <div class="msgUpper">-->
-<!--                                    <div class="userName">-->
-<!--                                        Aidan-->
-<!--                                    </div>-->
-<!--                                    <div class="time">-->
-<!--                                        12:00-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="msgFull">-->
-<!--                                    <div class="msg">-->
-<!--                                        Hi, how are you?-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                -->
-
-<!--                -->
-<!--                            </div>-->
-<!--                            <div class="msgSpacer"></div>-->
-<!--                        </div>-->
-<!--                        <div class="msgRow">-->
-<!--                            <div class="msgSpacer"></div>-->
-<!--                            <div class="msgRight">-->
-<!--                                -->
-<!--                                <div class="msgUpper">-->
-<!--                                    <div class="userName">-->
-<!--                                        Aidan-->
-<!--                                    </div>-->
-<!--                                    <div class="time">-->
-<!--                                        12:00-->
-<!--                                    </div>-->
-<!--                                    -->
-<!--                                    -->
-<!--                                </div>-->
-<!--                                <div class="msgFull">-->
-<!--                                    <div class="msg">-->
-<!--                                        Hi, how are you?-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                -->
-<!--                            </div>-->
-<!--                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">-->
-<!--                        </div>-->
-<!--                        <div class="msgRow">-->
-<!--                            <div class="msgSpacer"></div>-->
-<!--                            <div class="msgRight">-->
-<!--                                -->
-<!--                                <div class="msgUpper">-->
-<!--                                    <div class="userName">-->
-<!--                                        Aidan-->
-<!--                                    </div>-->
-<!--                                    <div class="time">-->
-<!--                                        12:00-->
-<!--                                    </div>-->
-<!--                                    -->
-<!--                                    -->
-<!--                                </div>-->
-<!--                                <div class="msgFull">-->
-<!--                                    <div class="msg">-->
-<!--                                        Hi, how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? how are you? -->
-<!--                                    </div>-->
-<!--                                </div>-->
-                
+            <!-- chat main -->
+            <div class="col-md-7 centerContent chatMain" data-bind="visible: selectedUser() != null">
+                <h2 data-bind="text: selectedUser().fullName"></h2>
+                <div class="chatMessages" data-bind="foreach: selectedUser().messages">
+                    <div class="msgRow">
+                        <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                        <div class="msgLeft" data-bind="visible: senderId() !== currentUser().id()">
+                            <div class="msgUpper">
+                                <div class="userName" data-bind="text: senderName()"></div>
+                                <div class="time" data-bind="text: sentTime()"></div>
                             </div>
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                            <div class="msgFull">
+                                <div class="msg" data-bind="text: content()"></div>
+                            </div>
                         </div>
-            <div data-bind="visible: activePollingXhr() != null">
-            <textarea rows="15" cols="60" readonly="readonly" data-bind="text: chatContent"></textarea>
-        </div>
-        <form id="postMessageForm" th:action="@{/mvc/chat}" data-bind="visible: activePollingXhr() != null">
-        </form>
-                       
+                        <div class="msgSpacer"></div>
+                        <div class="msgRight" data-bind="visible: senderId() === currentUser().id()">
+                            <div class="msgUpper">
+                                <div class="userName" data-bind="text: senderName()"></div>
+                                <div class="time" data-bind="text: sentTime()"></div>
+                            </div>
+                            <div class="msgFull">
+                                <div class="msg" data-bind="text: content()"></div>
+                            </div>
+                        </div>
+                        <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
                     </div>
-                    <div class="sendMessage">
-                        <div class="sendMessageContent">
-                            <input type="text" class="form-control inputMessage" placeholder="Type your message here...">
-                        </div>
-                        <div class="sendMessageButton">
-                            <button type="button" class="btn btn-primary">Send</button>
-                        </div>
-
+                </div>
+                <div class="sendMessage">
+                    <div class="sendMessageContent">
+                        <input type="text" class="form-control inputMessage" placeholder="Type your message here..." data-bind="textInput: newMessageContent">
                     </div>
-
+                    <div class="sendMessageButton">
+                        <button type="button" class="btn btn-primary" data-bind="click: sendMessage">Send</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- <div th:replace="fragments :: footer"></div> -->
 </body>
-<script type="text/javascript" src="../../../resources/js/chat.js" th:src="@{/resources/js/chat.js}"></script>
 </html>
