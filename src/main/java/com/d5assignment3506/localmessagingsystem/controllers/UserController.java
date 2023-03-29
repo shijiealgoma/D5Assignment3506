@@ -36,5 +36,32 @@ public class UserController {
 
         return "login";
     }
+    
+    @GetMapping("/editUser")
+    public String showEditForm(Model model, @RequestParam("username") String username) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        model.addAttribute("user", user);
+        return "editUser";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(User updatedUser, Model model) {
+        User user = userRepo.findById(updatedUser.getId()).orElse(null);
+        if (user == null) {
+            model.addAttribute("errorMessage", "User not found");
+            return "error";
+        }
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setEmail(updatedUser.getEmail());
+        user.setTitle(updatedUser.getTitle());
+        userRepo.save(user);
+
+        return "success";
+    }
 
 }
