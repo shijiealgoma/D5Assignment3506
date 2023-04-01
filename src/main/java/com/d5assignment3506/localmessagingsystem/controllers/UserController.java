@@ -1,3 +1,11 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.alibaba.fastjson.JSONObject;
@@ -22,6 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // register page
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
@@ -29,6 +38,7 @@ public class UserController {
         return "register";
     }
 
+    // register page
     @PostMapping("/registerUser")
     public String newUser(User user, Model model) {
         // create new user

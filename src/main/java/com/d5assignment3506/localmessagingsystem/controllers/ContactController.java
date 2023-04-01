@@ -1,4 +1,10 @@
-
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
 
 package com.d5assignment3506.localmessagingsystem.controllers;
 
@@ -22,6 +28,7 @@ public class ContactController {
     @Autowired
     private UserRepository userRepo;
 
+    // contact page with all users
     @RequestMapping(value = "/contact")
     public String register(Model model, HttpServletRequest request) {
 
@@ -44,6 +51,7 @@ public class ContactController {
         return "contact";
     }
 
+    // contact page user detail
     @PostMapping("/userDetail")
     public String userDetails(@ModelAttribute("user") String username, Model model) {
 

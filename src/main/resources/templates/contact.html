@@ -52,20 +52,20 @@
 
     function clickUser(username){
         $.ajax({
-            url: 'search', 	// 请求的地址，即要给那里发送请求
-            data: {		// 请求参数，有多个时以逗号分割
+            url: 'search', 	
+            data: {		
                 username: username,
             },
-            type: 'post',		// 请求方式，get、post
+            type: 'post',		
             dataType: 'json',
-            success: function (res) { // 请求成功执行此方法，res为返回值，名称自定义
+            success: function (res) { 
                 $("#image").attr("src", res.data.image);
                 $('#userFullName').html(res.data.firstName + " " + res.data.lastName);
                 $("#email").html(res.data.email);
                 $("#title").html(res.data.title);
                 $("#joinTime").html("20, Feb. 2020 JOINED");
             },
-            error: function (xhr, errorMessage, e) { //请求异常执行此方法，参数名不建议修改,可以不写这个函数
+            error: function (xhr, errorMessage, e) { 
                 alert(errorMessage);
             }
         });

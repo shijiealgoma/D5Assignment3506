@@ -1,9 +1,16 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.d5assignment3506.localmessagingsystem.entity.User;
 import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;

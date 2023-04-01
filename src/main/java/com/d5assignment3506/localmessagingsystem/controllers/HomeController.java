@@ -1,3 +1,11 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.d5assignment3506.localmessagingsystem.entity.User;
@@ -11,6 +19,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class HomeController {
 
+    //login page
     @RequestMapping(value = "/")
     public String index(Model model) {
         User user = new User();

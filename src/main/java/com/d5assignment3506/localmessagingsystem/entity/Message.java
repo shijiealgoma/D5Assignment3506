@@ -1,3 +1,11 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.entity;
 
 import javax.persistence.*;

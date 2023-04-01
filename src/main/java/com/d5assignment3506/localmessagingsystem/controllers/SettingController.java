@@ -1,3 +1,11 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.d5assignment3506.localmessagingsystem.entity.User;
@@ -16,11 +24,10 @@ public class SettingController {
     @Autowired
     private UserRepository userRepo;
 
+    // setting page
     @RequestMapping(value = "/setting")
     public String register(HttpServletRequest request, Model model) {
-//        List<User> listUsers = userRepo.findAll();
-//        model.addAttribute("title", "setting Page");
-//        model.addAttribute("allUsers", listUsers);
+        // get username from session
         String username = (String) request.getSession().getAttribute("username");
         User user = userRepo.findByUsername(username);
         model.addAttribute("user", user);
