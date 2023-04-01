@@ -1,9 +1,6 @@
 package com.d5assignment3506.localmessagingsystem.entity;
 
-import org.hibernate.type.BlobType;
-
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Table(name = "users")

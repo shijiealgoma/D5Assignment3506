@@ -38,8 +38,6 @@ public class ContactController {
             }
         }
 
-
-
         List<User> listUsers = userRepo.findAll();
         model.addAttribute("allUsers", listUsers);
 

@@ -4,6 +4,7 @@ import com.d5assignment3506.localmessagingsystem.entity.User;
 import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,19 +20,18 @@ public class LoginController {
     private UserRepository userRepo;
 
     @PostMapping("/userLogin")
-    public String login(@ModelAttribute("user") User user, Model model) {
+    public String login(@ModelAttribute("user") User user, Model model, HttpServletRequest request) {
 
         String username = user.getUsername();
         User checkUser = userRepo.findByUsername(username);
-
-        Cookie cookie = new Cookie("username", checkUser.getUsername());
-        cookie.setMaxAge(60 * 60 * 24 * 365);
-        model.addAttribute("cookie", cookie);
 
         if(checkUser == null || !user.getPassword().equals(checkUser.getPassword())) {
             model.addAttribute("errorMessage", "Invalid username or password");
             return "login";
         }
+
+        // save username to session
+        request.getSession().setAttribute("username", username);
 
         return "chat";
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -16,10 +17,14 @@ public class SettingController {
     private UserRepository userRepo;
 
     @RequestMapping(value = "/setting")
-    public String register(Model model) {
-        List<User> listUsers = userRepo.findAll();
-        model.addAttribute("title", "setting Page");
-        model.addAttribute("allUsers", listUsers);
+    public String register(HttpServletRequest request, Model model) {
+//        List<User> listUsers = userRepo.findAll();
+//        model.addAttribute("title", "setting Page");
+//        model.addAttribute("allUsers", listUsers);
+        String username = (String) request.getSession().getAttribute("username");
+        User user = userRepo.findByUsername(username);
+        model.addAttribute("user", user);
+
         return "setting";
     }
     
