@@ -8,5 +8,7 @@ public interface MessageRepository extends JpaRepository<Message, Long>  {
 
     Message findByReceiver(String receiver);
 
+    Message findBySenderOrReceiver(String sender, String receiver);
+
     Message findByTimestamp(String timestamp);
 }

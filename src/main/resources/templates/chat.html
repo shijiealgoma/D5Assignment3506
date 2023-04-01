@@ -19,7 +19,29 @@
                 <!-- login form -->
                 <div class="col-md-7 centerContent chatMain">
                     <div class="chatMessages">
-                        <div class="msgRow">
+                        <div class="msgRow" th:each="user: ${allMessages}">
+                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
+                            <div class="msgLeft">
+                                <div class="msgUpper">
+                                    <div class="userName">
+                                        Aidan
+                                    </div>
+                                    <div class="time">
+                                        12:00
+                                    </div>
+                                </div>
+                                <div class="msgFull">
+                                    <div class="msg" th:text="${message.content}">
+                                        
+                                    </div>
+                                </div>
+                                
+
+                
+                            </div>
+                            <div class="msgSpacer"></div>
+                        </div>
+                        <!-- <div class="msgRow">
                             <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
                             <div class="msgLeft">
                                 <div class="msgUpper">
@@ -97,7 +119,7 @@
                             <button type="button" class="btn btn-primary">Send</button>
                         </div>
 
-                    </div>
+                    </div> -->
 
                 </div>
             </div>

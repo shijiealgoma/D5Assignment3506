@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ContactController {
 
@@ -20,7 +23,22 @@ public class ContactController {
     private UserRepository userRepo;
 
     @RequestMapping(value = "/contact")
-    public String register(Model model) {
+    public String register(Model model, HttpServletRequest request) {
+
+        String username = null;
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                    model.addAttribute("username", username);
+
+                }
+            }
+        }
+
+
 
         List<User> listUsers = userRepo.findAll();
         model.addAttribute("allUsers", listUsers);
