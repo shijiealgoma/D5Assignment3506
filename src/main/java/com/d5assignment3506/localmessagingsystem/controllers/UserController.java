@@ -1,6 +1,13 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.d5assignment3506.localmessagingsystem.entity.User;
 import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
@@ -11,10 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @Controller
@@ -22,7 +27,10 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private UserService userService;
 
+    // register page
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
@@ -30,13 +38,14 @@ public class UserController {
         return "register";
     }
 
+    // register page
     @PostMapping("/registerUser")
     public String newUser(User user, Model model) {
         // create new user
         System.out.println(user.getEmail() + "," + user.getUsername());
         User checkUser = userRepo.findByUsername(user.getUsername());
 
-        if(checkUser != null) {
+        if (checkUser != null) {
             model.addAttribute("errorMessage", "The username exist");
             return "register";
         }
@@ -51,24 +60,24 @@ public class UserController {
         JSONObject result = new JSONObject();
         // save new user
         User checkUser = userRepo.findByUsername(user.getUsername());
-        if(checkUser != null) {
+        if (checkUser != null) {
 
-            if(user.getUsername() != null){
+            if (user.getUsername() != null) {
                 checkUser.setUsername(user.getUsername());
             }
-            if(user.getFirstName() != null){
+            if (user.getFirstName() != null) {
                 checkUser.setFirstName(user.getFirstName());
             }
-            if(user.getLastName() != null){
+            if (user.getLastName() != null) {
                 checkUser.setLastName(user.getLastName());
             }
-            if(user.getEmail() != null){
+            if (user.getEmail() != null) {
                 checkUser.setEmail(user.getEmail());
             }
-            if(user.getTitle() != null){
+            if (user.getTitle() != null) {
                 checkUser.setTitle(user.getTitle());
             }
-            if(user.getImage() != null){
+            if (user.getImage() != null) {
                 checkUser.setImage(user.getImage());
             }
 
@@ -77,7 +86,7 @@ public class UserController {
             result.put("code", 200);
             result.put("msg", "Update user information successfully！");
 
-        }else{
+        } else {
 
             result.put("code", 200);
             result.put("msg", "User does not exist, please create");
@@ -90,14 +99,14 @@ public class UserController {
         JSONObject result = new JSONObject();
         // save new user
         User checkUser = userRepo.findByUsername(user.getUsername());
-        if(checkUser != null) {
+        if (checkUser != null) {
 
             userRepo.deleteById(checkUser.getId());
 
             result.put("code", 200);
             result.put("msg", "Delete user information successfully！");
 
-        }else{
+        } else {
 
             result.put("code", 200);
             result.put("msg", "Error deleting user information! This user does not exist, please check!");
@@ -110,10 +119,10 @@ public class UserController {
         JSONObject result = new JSONObject();
         // save new user
         User checkUser = userRepo.findByUsername(user.getUsername());
-        if(checkUser != null) {
+        if (checkUser != null) {
             result.put("code", 200);
             result.put("data", checkUser);
-        }else{
+        } else {
             result.put("code", 200);
             result.put("msg", "Error checking user information! user does it not exist！");
         }
@@ -131,9 +140,6 @@ public class UserController {
         result.put("data", userList);
         ControllerHelper.sendJson(response, result.toString());
     }
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/loginUsers")
     public String showLoginUsers(Model model) {

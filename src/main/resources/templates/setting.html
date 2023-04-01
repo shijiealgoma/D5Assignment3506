@@ -14,40 +14,36 @@
                     <div class="" th:replace="menuleft :: menuleft"></div>
                 </div>
                 <!-- chat list -->
-                <div class="col-md-3 ">
-                    <div class="" th:replace="userlist :: userlist"></div>
-                </div>
+<!--                <div class="col-md-3 ">-->
+<!--                    <div class="" th:replace="userlist :: userlist"></div>-->
+<!--                </div>-->
 
                 <!-- login form -->
                 <div class="col-md-7 centerContent settingMain">
                     <div class="setting">
                         <h1>SETTING</h1>
                         <img id="image" src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg mt-3">
-                        <!-- <h3 class="mt-3">Aiden Smith</h3>
-                        <p>aiden@email.com</p>
-                        <p class="mt-2">Project Manager</p>
-                        <p>20, Feb. 2020 JOINED</p> -->
                         <div class="mt-2">
                             <label for="userName">userName</label>
-                            <input type="text" class="form-control" id="userName" placeholder="userName" value="">
+                            <input type="text" class="form-control" id="userName" placeholder="userName" value="" th:value="${user.username}">
                         </div>
                         <div class="mt-2">
                             <label for="firstName">firstName</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="firstName" value="">
+                            <input type="text" class="form-control" id="firstName" placeholder="firstName" value="" th:value="${user.firstName}">
                         </div>
                         <div class="mt-2">
                             <label for="lastName">lastName</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="lastName" value="">
+                            <input type="text" class="form-control" id="lastName" placeholder="lastName" value="" th:value="${user.lastName}">
                         </div>
                         <div class="mt-2">
                             <label for="email">email</label>
                             <input type="text" class="form-control" id="email" placeholder="email"
-                                value="">
+                                value="" th:value="${user.email}">
                         </div>
                         <div class="mt-2">
                             <label for="title">title</label>
                             <input type="text" class="form-control" id="title" placeholder="Title"
-                                value="">
+                                value="" th:value="${user.title}">
                         </div>
 
                         <div class="mt-2">
@@ -72,91 +68,6 @@
     <!-- <div th:replace="fragments :: footer"></div> -->
 </body>
 
-<script type="text/javascript">
-    function save(){
-        $.ajax({
-            url: 'save', 	// 请求的地址，即要给那里发送请求
-            data: {		// 请求参数，有多个时以逗号分割
-                username: $("#userName").val(),
-                firstName: $("#firstName").val(),
-                lastName: $("#lastName").val(),
-                email: $("#email").val(),
-                title:$("#title").val(),
-                image:$("#imageAddress").val(),
-            },
-            type: 'post',		// 请求方式，get、post
-            dataType: 'json',
-            success: function (res) { // 请求成功执行此方法，res为返回值，名称自定义
-                alert(res.msg);
-                location.reload();
-            },
-            error: function (xhr, errorMessage, e) { //请求异常执行此方法，参数名不建议修改,可以不写这个函数
-                alert(errorMessage);
-            }
-        });
-    };
-
-    function deleteUser(){
-
-        res = confirm('确定要删除用户' + $("#userName").val() + '的所有信息吗？');
-
-        if(res) {
-            $.ajax({
-                url: 'delete', 	// 请求的地址，即要给那里发送请求
-                data: {		// 请求参数，有多个时以逗号分割
-                    username: $("#userName").val(),
-                },
-                type: 'post',		// 请求方式，get、post
-                dataType: 'json',
-                success: function (res) { // 请求成功执行此方法，res为返回值，名称自定义
-                    alert(res.msg);
-                    // searchAllUser();
-                    location.reload();
-                },
-                error: function (xhr, errorMessage, e) { //请求异常执行此方法，参数名不建议修改,可以不写这个函数
-                    alert(errorMessage);
-                }
-            });
-        }
-    };
-
-    function clickUser(username){
-        $.ajax({
-            url: 'search', 	// 请求的地址，即要给那里发送请求
-            data: {		// 请求参数，有多个时以逗号分割
-                username: username,
-            },
-            type: 'post',		// 请求方式，get、post
-            dataType: 'json',
-            success: function (res) { // 请求成功执行此方法，res为返回值，名称自定义
-                $("#image").attr("src", res.data.image);
-                $("#userName").val(res.data.username);
-                $("#firstName").val(res.data.firstName);
-                $("#lastName").val(res.data.lastName);
-                $("#email").val(res.data.email);
-                $("#title").val(res.data.title);
-                $("#imageAddress").val(res.data.image);
-            },
-            error: function (xhr, errorMessage, e) { //请求异常执行此方法，参数名不建议修改,可以不写这个函数
-                alert(errorMessage);
-            }
-        });
-    }
-
-    function searchAllUser(){
-        $.ajax({
-            url: 'setting', 	// 请求的地址，即要给那里发送请求
-            type: 'post',		// 请求方式，get、post
-            dataType: 'json',
-            success: function (res) { // 请求成功执行此方法，res为返回值，名称自定义
-                userlist = res.data;
-            },
-            error: function (xhr, errorMessage, e) { //请求异常执行此方法，参数名不建议修改,可以不写这个函数
-                alert(errorMessage);
-            }
-        });
-    }
-</script>
 
 
 

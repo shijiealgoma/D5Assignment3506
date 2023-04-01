@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+// user service
 public class UserService {
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepo;
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return userRepo.findAll();
     }
+
 }

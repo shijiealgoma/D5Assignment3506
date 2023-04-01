@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.longThat;
 public class UserRepoTest {
 
     @Autowired
-    private UserRepository repo;
+    private UserRepository userRepo;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -36,7 +36,7 @@ public class UserRepoTest {
         user.setTitle("Developer");
 
 
-        User savedUser = repo.save(user);
+        User savedUser = userRepo.save(user);
         User existUser = entityManager.find(User.class, savedUser.getId());
 
         assertThat(existUser.getEmail()).isEqualTo(user.getEmail());
@@ -51,7 +51,7 @@ public class UserRepoTest {
         user2.setTitle("Manager");
 
 
-        User savedUser2 = repo.save(user2);
+        User savedUser2 = userRepo.save(user2);
         User existUser2 = entityManager.find(User.class, savedUser2.getId());
 
         assertThat(existUser2.getEmail()).isEqualTo(user2.getEmail());

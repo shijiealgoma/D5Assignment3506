@@ -1,3 +1,11 @@
+/*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ 
+
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.d5assignment3506.localmessagingsystem.entity.Message;
@@ -20,11 +28,15 @@ public class ChatController {
     private UserRepository userRepo;
     private MessageRepository messageRepo;
 
+<<<<<<< HEAD
 
     /**
      * @param model
      * @return
      */
+=======
+    // chat page with all users and messages
+>>>>>>> main
     @RequestMapping(value = "/chat")
     public String register(Model model) {
         List<User> listUsers = userRepo.findAll();
@@ -52,6 +64,17 @@ public class ChatController {
 
         model.addAttribute("userDetail", userDetail);
 
+<<<<<<< HEAD
+=======
+        try {
+            List<User> listUsers = userRepo.findAll();
+            // List<Message> listMessages = messageRepo.findAll();
+            model.addAttribute("allUsers", listUsers);
+            // model.addAttribute("allMessages", listMessages);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+>>>>>>> main
         return "chat";
     }
 
