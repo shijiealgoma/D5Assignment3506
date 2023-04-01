@@ -7,6 +7,8 @@ import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -18,21 +20,38 @@ public class ChatController {
     private UserRepository userRepo;
     private MessageRepository messageRepo;
 
+
     /**
      * @param model
      * @return
      */
     @RequestMapping(value = "/chat")
     public String register(Model model) {
+        List<User> listUsers = userRepo.findAll();
+        // List<Message> listMessages = messageRepo.findAll();
 
-        try {
-            List<User> listUsers = userRepo.findAll();
-            List<Message> listMessages = messageRepo.findAll();
-            model.addAttribute("allUsers", listUsers);
-            model.addAttribute("allMessages", listMessages);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        model.addAttribute("allUsers", listUsers);
+        // model.addAttribute("allMessages", listMessages);
+
+        // try {
+        // List<User> listUsers = userRepo.findAll();
+        // List<Message> listMessages = messageRepo.findAll();
+        // model.addAttribute("allUsers", listUsers);
+        // model.addAttribute("allMessages", listMessages);
+        // } catch (Exception e) {
+        // System.out.println(e);
+        // }
+        return "chat";
+    }
+
+
+    @PostMapping("/userDetail2")
+    public String userDetails(@ModelAttribute("user") String username, Model model) {
+
+        User userDetail = userRepo.findByUsername(username);
+
+        model.addAttribute("userDetail", userDetail);
+
         return "chat";
     }
 
