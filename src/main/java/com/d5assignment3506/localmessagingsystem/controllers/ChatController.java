@@ -52,7 +52,7 @@ public class ChatController {
     @RequestMapping(value = "/chat")
     public String register(HttpServletRequest request, Model model) {
         List<User> listUsers = userRepo.findAll();
-        // List<Message> listMessages = messageRepo.findAll();
+        List<Message> listMessages = messageRepo.findAll();
 
         // get username from session
         String username = (String) request.getSession().getAttribute("username");
@@ -75,7 +75,7 @@ public class ChatController {
 
         model.addAttribute("allUsers", listUsers);
         model.addAttribute("senderID", userID);
-        // model.addAttribute("allMessages", listMessages);
+        model.addAttribute("messages", listMessages);
 
         // try {
         // List<User> listUsers = userRepo.findAll();
@@ -88,24 +88,18 @@ public class ChatController {
         return "chat";
     }
 
-    // send message
-    // @PostMapping("/sendMsg")
-    // // @ModelAttribute("message") Message message, BindingResult bindingResult,
-    // public String send( @RequestParam("msg") String msg, Model model,
-    // HttpServletRequest request) {
-
-    // Message message = new Message();
-    // String username = (String) request.getSession().getAttribute("username");
-    // User user = userRepo.findByUsername(username);
-
-    // message.setSender("1");
-    // message.setReceiver("10");
-    // message.setTimestamp(LocalDateTime.now().toString());
-    // message.setContent(msg);
-
-    // messageRepo.save(message);
-    // // return "chat";
-    // return "chat";
+    // @PostMapping("/getMessages")
+    // public ResponseEntity<String> getMessages(@RequestBody String body) {
+    //     ObjectMapper mapper = new ObjectMapper();
+    //     try {
+    //         Map<String, String> map = mapper.readValue(body, Map.class);
+    //         String senderID = map.get("senderID");
+    //         String receiverID = map.get("receiverID");
+    //         List<Message> messages = messageRepo.findBySenderAndReceiver(senderID, receiverID);
+    //         return new ResponseEntity<>(mapper.writeValueAsString(messages), HttpStatus.OK);
+    //     } catch (Exception e) {
+    //         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    //     }
     // }
 
     @PostMapping("/add")
