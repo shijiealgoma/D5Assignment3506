@@ -32,7 +32,7 @@
                         <p id="joinTime"></p>
                         <div class="row">
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary btn-block mt-3"><a href="/chat">Message</a></button>
+                                <button type="submit" class="btn btn-primary btn-block mt-3"><a th:href="@{/users/{username}(username=${username})}">Message</a></button>
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-outline-primary btn-block mt-3"><a href="/clear">Clear Message</a></button>

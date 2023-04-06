@@ -29,18 +29,23 @@
                             <img  th:src="${user.image}" alt="" class="profileImg" >
                             <div class="userInfo" >
                                 <div class="">
-                                    <a th:action="@{/userDetail2}" th:object="${user.username}"
-                                        th:onclick="clickUser([[${user.id}]], [[${senderID}]])" method="post">
-                                        <span class="userName" th:text="${user.firstName}">
+<!--                                    <a th:action="@{/userDetail2}" th:object="${user.username}"-->
+<!--                                        th:onclick="clickUser([[${user.id}]], [[${senderID}]])" method="post">-->
+<!--                                        <span class="userName" th:text="${user.firstName}">-->
+<!--                                            First Name-->
+<!--                                        </span>-->
+<!--                                        <span class="userName" th:text="${user.lastName}">-->
+<!--                                            Last Name-->
+<!--                                        </span>-->
+<!--                                    </a>-->
+                                    <a th:href="@{/users/{username}(username=${user.username})}" >
+                                         <span class="userName" th:text="${user.firstName}">
                                             First Name
                                         </span>
                                         <span class="userName" th:text="${user.lastName}">
                                             Last Name
                                         </span>
                                     </a>
-                                    <div class="msg" th:text="${user.username}">
-                                        Hi, how are you?
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -49,97 +54,35 @@
                 <!-- login form -->
                 <div class="col-md-7 centerContent chatMain">
                     <div class="chatMessages">
-                        <!-- <div class="msgRow" th:each="user: ${allMessages}">
+                        <div class="msgRow" th:each="message: ${messages}">
                             <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                            <div class="msgLeft">
+<!--                            <div class="msgRight" >-->
+                                <div th:class="${message.sender == #httpSession.getAttribute('username')} ? 'msgRight' : 'msgLeft'">
                                 <div class="msgUpper">
                                     <div class="userName">
-                                        Aidan
+                                        <span th:if="${message.sender eq #httpSession.getAttribute('username')}" th:text="${message.sender}"></span>
+                                        <span th:if="${message.sender ne #httpSession.getAttribute('username')}" th:text="${message.sender}"></span>
+<!--                                        <div th:text="${#httpSession.getAttribute('username')}"></div>-->
+
+<!--                                         <span class="userName" id="receiver" th:text="${message.receiver}">-->
+<!--                                            First Name-->
+<!--                                        </span>-->
+<!--                                        <span class="userName" th:text="${user.lastName}">-->
+<!--                                            Last Name-->
+<!--                                        </span>-->
                                     </div>
-                                    <div class="time">
+                                    <div class="time" th:text="${message.timestamp}">
                                         12:00
                                     </div>
                                 </div>
                                 <div class="msgFull">
                                     <div class="msg" th:text="${message.content}">
-
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                            <div class="msgSpacer"></div>
-                        </div> -->
-                        <div class="msgRow">
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                            <div class="msgLeft">
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
-                                        Hi, how are you?
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                            <div class="msgSpacer"></div>
-                        </div>
-                        <div class="msgRow">
-                            <div class="msgSpacer"></div>
-                            <div class="msgRight">
-
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-
-
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
                                         Hi, how are you?
                                     </div>
                                 </div>
 
                             </div>
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                        </div>
-                        <div class="msgRow">
                             <div class="msgSpacer"></div>
-                            <div class="msgRight">
-
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-
-
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
-                                        Hi, how are you? how are you? how are you? how are you? how are you? how are
-                                        you? how are you? how are you? how are you? how are you? how are you? how are
-                                        you? how are you? how are you? how are you? how are you?
-                                    </div>
-                                </div>
-
-                            </div>
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
                         </div>
 
                     </div>
@@ -153,12 +96,14 @@
                             <div class="sendMessageButton">
                                 <button type="submit" class="btn btn-primary">Send</button>
                             </div>
-
-
-
                         </div>
                     </form>
                     <script type="text/javascript">
+
+                       var receiver = document.getElementById('receiver').value;;
+
+                        // Use the 'receiver' value as needed
+                        console.log(receiver);
 
                         var receiverID = "";
                         var senderID = "";
