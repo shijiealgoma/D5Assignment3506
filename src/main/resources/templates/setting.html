@@ -67,7 +67,93 @@
 
     <!-- <div th:replace="fragments :: footer"></div> -->
 </body>
+<script type="text/javascript">
+    function save(){
+        $.ajax({
+            url: 'save', 	// Request URL to send data to
+            data: {		// Request parameters, separated by commas when multiple
+                username: $("#userName").val(),
+                firstName: $("#firstName").val(),
+                lastName: $("#lastName").val(),
+                email: $("#email").val(),
+                title:$("#title").val(),
+                image:$("#imageAddress").val(),
+            },
+            type: 'post',		// Request method, either 'get' or 'post'
+            dataType: 'json',
+            success: function (res) { // Executes if request is successful, res is the response data
+                alert(res.msg);
+                location.reload();
+            },
+            error: function (xhr, errorMessage, e) { // Executes if request encounters an error, parameters' names should not be changed
+                alert(errorMessage);
+            }
+        });
+    };
 
+    function deleteUser() {
+        const username = $("#userName").val();
+        const confirmMessage = `Are you sure you want to delete all information for user ${username}?`;
+        const confirmed = confirm(confirmMessage);
+
+        if (confirmed) {
+            $.ajax({
+                url: 'delete',
+                data: {
+                    username: username
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    alert(res.msg);
+                    $("#user-" + username).remove();
+                    window.location.replace("/logout");
+                },
+                error: function (xhr, errorMessage, e) {
+                    alert("There was an error deleting the user information. Please check your network connection or contact your administrator.");
+                }
+            });
+        }
+    }
+
+
+    function clickUser(username){
+        $.ajax({
+            url: 'search', 	// Request URL to send data to
+            data: {		// Request parameters, separated by commas when multiple
+                username: username,
+            },
+            type: 'post',		// Request method, either 'get' or 'post'
+            dataType: 'json',
+            success: function (res) { // Executes if request is successful, res is the response data
+                $("#image").attr("src", res.data.image);
+                $("#userName").val(res.data.username);
+                $("#firstName").val(res.data.firstName);
+                $("#lastName").val(res.data.lastName);
+                $("#email").val(res.data.email);
+                $("#title").val(res.data.title);
+                $("#imageAddress").val(res.data.image);
+            },
+            error: function (xhr, errorMessage, e) { // Executes if request encounters an error, parameters' names should not be changed
+                alert(errorMessage);
+            }
+        });
+    }
+
+    function searchAllUser(){
+        $.ajax({
+            url: 'setting', 	// Request URL to send data to
+            type: 'post',		// Request method, either 'get' or 'post'
+            dataType: 'json',
+            success: function (res) { // Executes if request is successful, res is the response data
+                userlist = res.data;
+            },
+            error: function (xhr, errorMessage, e) { // Executes if request encounters an error, parameters' names should not be changed
+                alert(errorMessage);
+            }
+        });
+    }
+</script>
 
 
 
