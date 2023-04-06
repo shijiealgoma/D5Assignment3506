@@ -44,7 +44,6 @@ public class ChatController {
     public ChatController(MessageRepository messageRepo) {
         this.messageRepo = messageRepo;
     }
-    
 
     // @Autowired
     // private MessageService messageService;
@@ -57,8 +56,25 @@ public class ChatController {
 
         // get username from session
         String username = (String) request.getSession().getAttribute("username");
+        User user = userRepo.findByUsername(username);
+        String userID = user.getId().toString();
+        Long id = user.getId();
+
+        User userToRemove = null;
+        for (User user1 : listUsers) {
+            if (user1.getId().equals(id)) {
+                userToRemove = user1;
+                break;
+            }
+        }
+
+        // If the user is found, remove them from the list
+        if (userToRemove != null) {
+            listUsers.remove(userToRemove);
+        }
 
         model.addAttribute("allUsers", listUsers);
+        model.addAttribute("senderID", userID);
         // model.addAttribute("allMessages", listMessages);
 
         // try {
@@ -73,36 +89,37 @@ public class ChatController {
     }
 
     // send message
-    @PostMapping("/sendMsg")
-    // @ModelAttribute("message") Message message, BindingResult bindingResult,
-    public String send( @RequestParam("msg") String msg, Model model, HttpServletRequest request) {
+    // @PostMapping("/sendMsg")
+    // // @ModelAttribute("message") Message message, BindingResult bindingResult,
+    // public String send( @RequestParam("msg") String msg, Model model,
+    // HttpServletRequest request) {
 
-        Message message = new Message();
-        String username = (String) request.getSession().getAttribute("username");
-        User user = userRepo.findByUsername(username);
+    // Message message = new Message();
+    // String username = (String) request.getSession().getAttribute("username");
+    // User user = userRepo.findByUsername(username);
 
-        message.setSender("1");
-        message.setReceiver("10");
-        message.setTimestamp(LocalDateTime.now().toString());
-        message.setContent(msg);
+    // message.setSender("1");
+    // message.setReceiver("10");
+    // message.setTimestamp(LocalDateTime.now().toString());
+    // message.setContent(msg);
 
-        messageRepo.save(message);
-        // return "chat";
-        return "chat";
-    }
+    // messageRepo.save(message);
+    // // return "chat";
+    // return "chat";
+    // }
 
     @PostMapping("/add")
-    public String userDetails(@ModelAttribute("content") String content,  Model model, HttpServletRequest request) {
+    public String userDetails(@ModelAttribute("content") String content, Model model, HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("username");
         User user = userRepo.findByUsername(username);
         String userID = user.getId().toString();
-        //print userID
+        // print userID
         System.out.println("userID: " + userID);
 
-        //print out the content
+        // print out the content
         System.out.println("content: " + content);
 
-        //save the message to database
+        // save the message to database
         Message message = new Message();
         message.setSender(userID);
         message.setReceiver("10");
@@ -110,10 +127,8 @@ public class ChatController {
         message.setContent(content);
 
         messageRepo.save(message);
-        
-        
+
         return "chat";
     }
-
 
 }
