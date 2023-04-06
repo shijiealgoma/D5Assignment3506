@@ -30,6 +30,7 @@ public class LoginController {
     public String login(@ModelAttribute("user") User user, Model model, HttpServletRequest request) {
 
         String username = user.getUsername();
+        Long userID = user.getId();
         User checkUser = userRepo.findByUsername(username);
 
         if(checkUser == null || !user.getPassword().equals(checkUser.getPassword())) {
@@ -39,6 +40,7 @@ public class LoginController {
 
         // save username to session
         request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("userID", userID);
 
         return "chat";
     }

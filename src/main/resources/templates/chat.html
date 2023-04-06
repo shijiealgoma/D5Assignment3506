@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 
 <head th:replace="fragments :: head"></head>
 
@@ -147,17 +148,50 @@
                         </div>
 
                     </div>
-                    <div class="sendMessage">
-                        <div class="sendMessageContent">
-                            <input type="text" class="form-control inputMessage"
-                                placeholder="Type your message here...">
-                        </div>
-                        <div class="sendMessageButton">
-                            <button type="button" class="btn btn-primary">Send</button>
-                        </div>
+                    <form action="/sendMsg" method="post" id="message-form">
+                        <div class="sendMessage">
 
-                    </div>
+                            <div class="sendMessageContent">
+                                <input type="text" class="form-control inputMessage" id="content" name="content"
+                                    placeholder="Type your message here...">
+                            </div>
+                            <div class="sendMessageButton">
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
 
+
+
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+
+
+
+                        const form = document.querySelector('#message-form');
+                        form.addEventListener('submit', (event) => {
+                            event.preventDefault();
+
+
+
+                            var msg = document.getElementById("content").value;
+                            console.log("msg: " + msg);
+                            $.ajax({
+                                url: '/add',
+                                type: 'POST',
+                                data: {
+                                    content: msg,
+                                },
+                                success: function (data) {
+                                    console.log("success");
+                                    //console.log(data);
+                                },
+                                error: function (data) {
+                                    console.log("error");
+                                    console.log(data);
+                                }
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
