@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
@@ -57,13 +59,23 @@ public class MessageRepoTest {
     @Test
     public void readMessages() {
         Iterable<Message> messages = repo.findAll();
-        messages.forEach(message -> System.out.println(message));
+        messages.forEach(message -> System.out.println(message.getContent()));
     }
 
     @Test
     public void readMessagesBySender() {
-        Iterable<Message> messages = (Iterable<Message>) repo.findBySender("1");
-        messages.forEach(message -> System.out.println(message));
+        List<Message>  messages = repo.findALLBySenderOrReceiver("1231", "wetwet");
+        for (Message message : messages) {
+            System.out.println(message.getContent());
+        }
+    }
+
+    @Test
+    public void readMessagesBySenderandReceiver() {
+        List<Message>  messages = repo.findMessagesByReceiverAndSender("1231", "wetwet");
+        for (Message message : messages) {
+            System.out.println(message.getContent());
+        }
     }
 
 

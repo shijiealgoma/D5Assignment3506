@@ -9,16 +9,21 @@ Duc Le
 package com.d5assignment3506.localmessagingsystem.controllers;
 
 import com.alibaba.fastjson.JSONObject;
+import com.d5assignment3506.localmessagingsystem.entity.Message;
 import com.d5assignment3506.localmessagingsystem.entity.User;
+import com.d5assignment3506.localmessagingsystem.repo.MessageRepository;
 import com.d5assignment3506.localmessagingsystem.repo.UserRepository;
 import com.d5assignment3506.localmessagingsystem.service.UserService;
 import com.d5assignment3506.localmessagingsystem.utils.ControllerHelper;
+import groovy.transform.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -29,6 +34,9 @@ public class UserController {
     private UserRepository userRepo;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageRepository msgRepo;
 
     // register page
     @GetMapping("/register")
@@ -146,6 +154,21 @@ public class UserController {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         return "loginUsers";
+    }
+
+    @GetMapping("/users/{username}")
+    public String viewProfile(@PathVariable String username, Model model, HttpServletRequest request) {
+        User receiver = userRepo.findByUsername(username);
+        String sender = (String) request.getSession().getAttribute("username");
+//        User sender = userRepo.findByUsername(username);
+
+        System.out.println("receiver = " + sender + " sender = " + username);
+        List<Message> message = msgRepo.findMessagesByReceiverAndSender( sender, username);
+//        model.addAttribute("receiver", receiver);
+        model.addAttribute("messages", message);
+
+
+        return "chat";
     }
 
 }
