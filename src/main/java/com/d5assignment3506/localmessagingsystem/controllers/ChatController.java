@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,6 +60,7 @@ public class ChatController {
         User user = userRepo.findByUsername(username);
         String userID = user.getId().toString();
         Long id = user.getId();
+        String userFullName = user.getFirstName() + " " + user.getLastName();
 
         User userToRemove = null;
         for (User user1 : listUsers) {
@@ -75,7 +77,8 @@ public class ChatController {
 
         model.addAttribute("allUsers", listUsers);
         model.addAttribute("senderID", userID);
-        model.addAttribute("messages", listMessages);
+        model.addAttribute("senderName", userFullName);
+        // model.addAttribute("messages", listMessages);
 
         // try {
         // List<User> listUsers = userRepo.findAll();
@@ -88,22 +91,29 @@ public class ChatController {
         return "chat";
     }
 
-    // @PostMapping("/getMessages")
-    // public ResponseEntity<String> getMessages(@RequestBody String body) {
-    //     ObjectMapper mapper = new ObjectMapper();
-    //     try {
-    //         Map<String, String> map = mapper.readValue(body, Map.class);
-    //         String senderID = map.get("senderID");
-    //         String receiverID = map.get("receiverID");
-    //         List<Message> messages = messageRepo.findBySenderAndReceiver(senderID, receiverID);
-    //         return new ResponseEntity<>(mapper.writeValueAsString(messages), HttpStatus.OK);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    //     }
-    // }
+    @PostMapping("/getMessages")
+    public ResponseEntity<String> getMessages(
+            @ModelAttribute("receiver") String receiver,
+            @ModelAttribute("sender") String sender,
 
+            Model model, HttpServletRequest request) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            List<Message> messages = messageRepo.findMessagesByReceiverAndSender(receiver, sender);
+            return new ResponseEntity<>(mapper.writeValueAsString(messages),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // add message to database
     @PostMapping("/add")
-    public String userDetails(@ModelAttribute("content") String content, Model model, HttpServletRequest request) {
+    public String userDetails(
+            @ModelAttribute("content") String content,
+            @ModelAttribute("receiver") String receiver,
+            Model model, HttpServletRequest request) {
+
         String username = (String) request.getSession().getAttribute("username");
         User user = userRepo.findByUsername(username);
         String userID = user.getId().toString();
@@ -113,14 +123,23 @@ public class ChatController {
         // print out the content
         System.out.println("content: " + content);
 
-        // save the message to database
-        Message message = new Message();
-        message.setSender(userID);
-        message.setReceiver("10");
-        message.setTimestamp(LocalDateTime.now().toString());
-        message.setContent(content);
+        // print out the receiver
+        System.out.println("receiver: " + receiver);
 
-        messageRepo.save(message);
+        // check if the content is empty
+        if (content != null && !content.isEmpty() &&
+                receiver != null && !receiver.isEmpty()) {
+            // save the message to database
+            Message message = new Message();
+            message.setSender(userID);
+            message.setReceiver(receiver);
+            message.setTimestamp(LocalDateTime.now().toString());
+            message.setContent(content);
+
+            messageRepo.save(message);
+        } else {
+            System.out.println("Something is empty!!");
+        }
 
         return "chat";
     }
