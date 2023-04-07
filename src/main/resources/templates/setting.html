@@ -13,10 +13,6 @@
                 <div class="col-md-2 bgColor">
                     <div class="" th:replace="menuleft :: menuleft"></div>
                 </div>
-                <!-- chat list -->
-<!--                <div class="col-md-3 ">-->
-<!--                    <div class="" th:replace="userlist :: userlist"></div>-->
-<!--                </div>-->
 
                 <!-- login form -->
                 <div class="col-md-7 centerContent settingMain">
@@ -64,11 +60,93 @@
             </div>
         </div>
     </div>
-
-    <!-- <div th:replace="fragments :: footer"></div> -->
 </body>
 
+<script type="text/javascript">
+    function save(){
+        $.ajax({
+            url: 'save',
+            data: {
+                username: $("#userName").val(),
+                firstName: $("#firstName").val(),
+                lastName: $("#lastName").val(),
+                email: $("#email").val(),
+                title:$("#title").val(),
+                image:$("#imageAddress").val(),
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (res) {
+                alert(res.msg);
+                location.reload();
+            },
+            error: function (xhr, errorMessage, e) {
+                alert(errorMessage);
+            }
+        });
+    };
 
+    function deleteUser(){
+
+        res = confirm('delete' + $("#userName").val() + '?');
+
+        if(res) {
+            $.ajax({
+                url: 'delete',
+                data: {
+                    username: $("#userName").val(),
+                },
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                    alert(res.msg);
+                    // searchAllUser();
+                    location.reload();
+                },
+                error: function (xhr, errorMessage, e) {
+                    alert(errorMessage);
+                }
+            });
+        }
+    };
+
+    function clickUser(username){
+        $.ajax({
+            url: 'search',
+            data: {
+                username: username,
+            },
+            type: 'post',
+            dataType: 'json',
+            success: function (res) {
+                $("#image").attr("src", res.data.image);
+                $("#userName").val(res.data.username);
+                $("#firstName").val(res.data.firstName);
+                $("#lastName").val(res.data.lastName);
+                $("#email").val(res.data.email);
+                $("#title").val(res.data.title);
+                $("#imageAddress").val(res.data.image);
+            },
+            error: function (xhr, errorMessage, e) {
+                alert(errorMessage);
+            }
+        });
+    }
+
+    function searchAllUser(){
+        $.ajax({
+            url: 'setting',
+            type: 'post',
+            dataType: 'json',
+            success: function (res) {
+                userlist = res.data;
+            },
+            error: function (xhr, errorMessage, e) {
+                alert(errorMessage);
+            }
+        });
+    }
+</script>
 
 
 </html>
