@@ -61,6 +61,7 @@ public class ChatController {
         String userID = user.getId().toString();
         Long id = user.getId();
         String userFullName = user.getFirstName() + " " + user.getLastName();
+        String senderImage = user.getImage();
 
         User userToRemove = null;
         for (User user1 : listUsers) {
@@ -78,6 +79,7 @@ public class ChatController {
         model.addAttribute("allUsers", listUsers);
         model.addAttribute("senderID", userID);
         model.addAttribute("senderName", userFullName);
+        model.addAttribute("senderImage", senderImage);
         // model.addAttribute("messages", listMessages);
 
         // try {

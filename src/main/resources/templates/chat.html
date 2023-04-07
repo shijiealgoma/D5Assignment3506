@@ -29,8 +29,10 @@
                             <img th:src="${user.image}" alt="" class="profileImg">
                             <div class="userInfo">
                                 <div class="">
-                                    <a th:action="@{/userDetail2}" th:object="${user.username}"
-                                        th:onclick="clickUser([[${user.id}]], [[${senderID}]],[[${user.firstName + user.lastName}]], [[${senderName}]] )" method="post">
+                                    <a th:action="@{/userDetail2}" th:object="${user.username}" th:onclick="clickUser([[${user.id}]], [[${senderID}]],
+                                        [[${user.firstName + user.lastName}]], [[${senderName}]],
+                                        [[${user.image}]], [[${senderImage}]]
+                                        )" method="post">
                                         <span class="userName" th:text="${user.firstName}">
                                             First Name
                                         </span>
@@ -60,14 +62,6 @@
                                             th:text="${message.sender}"></span>
                                         <span th:if="${message.sender ne #httpSession.getAttribute('username')}"
                                             th:text="${message.sender}"></span>
-                                        <!--                                        <div th:text="${#httpSession.getAttribute('username')}"></div>-->
-
-                                        <!--                                         <span class="userName" id="receiver" th:text="${message.receiver}">-->
-                                        <!--                                            First Name-->
-                                        <!--                                        </span>-->
-                                        <!--                                        <span class="userName" th:text="${user.lastName}">-->
-                                        <!--                                            Last Name-->
-                                        <!--                                        </span>-->
                                     </div>
                                     <div class="time" th:text="${message.timestamp}">
                                     </div>
@@ -80,99 +74,6 @@
                             </div>
                             <div class="msgSpacer"></div>
                         </div>
-                        <!-- <div class="msgRow" th:each="user: ${allMessages}">
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                            <div class="msgLeft">
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg" th:text="${message.content}">
-
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                            <div class="msgSpacer"></div>
-                        </div> -->
-                        <!-- <div class="msgRow">
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                            <div class="msgLeft">
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
-                                        Hi, how are you?
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-                            <div class="msgSpacer"></div>
-                        </div>
-                        <div class="msgRow">
-                            <div class="msgSpacer"></div>
-                            <div class="msgRight">
-
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-
-
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
-                                        Hi, how are you?
-                                    </div>
-                                </div>
-
-                            </div>
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                        </div>
-                        <div class="msgRow">
-                            <div class="msgSpacer"></div>
-                            <div class="msgRight">
-
-                                <div class="msgUpper">
-                                    <div class="userName">
-                                        Aidan
-                                    </div>
-                                    <div class="time">
-                                        12:00
-                                    </div>
-
-
-                                </div>
-                                <div class="msgFull">
-                                    <div class="msg">
-                                        Hi, how are you? how are you? how are you? how are you? how are you? how are
-                                        you? how are you? how are you? how are you? how are you? how are you? how are
-                                        you? how are you? how are you? how are you? how are you?
-                                    </div>
-                                </div>
-
-                            </div>
-                            <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-                        </div> -->
-
                     </div>
                     <form action="/sendMsg" method="post" id="message-form">
                         <div class="sendMessage">
@@ -194,17 +95,43 @@
                         var receiverFullName = "";
                         var senderFullName = "";
 
-                        function clickUser(receiver_id, sender_id, receiver_full_name, sender_full_name) {
+                        var senderImage = "https://static.thenounproject.com/png/2416938-200.png";
+                        var receiverImage = "https://static.thenounproject.com/png/2416938-200.png";
+
+                        var msgTotalSize = 0;
+
+
+                        function clickUser(receiver_id, sender_id,
+                            receiver_full_name, sender_full_name,
+                            receiver_image, sender_image
+                        ) {
 
                             receiverID = receiver_id;
                             senderID = sender_id;
                             receiverFullName = receiver_full_name;
                             senderFullName = sender_full_name;
+                            receiverImage = receiver_image;
+                            senderImage = sender_image;
+
                             console.log("receiverID: " + receiverID);
                             console.log("senderID: " + senderID);
                             console.log("receiverFullName: " + receiverFullName);
                             console.log("senderFullName: " + senderFullName);
                             getMsg();
+
+                            //if the receiver is not "" and the sender is not "", 
+                            //then remove messages and get the messages every 2 seconds
+                            if (receiverID != "" && senderID != "") {
+                                setInterval(
+                                    function () {
+
+                                        /*while (chatWindow.firstChild) {
+                                            chatWindow.removeChild(chatWindow.firstChild);
+                                        }*/
+                                        getMsg();
+                                    }, 2000);
+                            }
+
 
                         }
 
@@ -219,6 +146,8 @@
                                 success: function (data) {
                                     console.log("success");
                                     console.log(data);
+                                    //empty input field
+
                                     addChatMessage(JSON.parse(data));
                                 },
                                 error: function (data) {
@@ -228,26 +157,44 @@
                             });
                         }
 
-                        function addChatMessage(data){
+                        function addChatMessage(data) {
                             //use json data to generate html
                             //append to chat window
 
                             //check if data is empty or data is not an array
-                            if (data == null || !Array.isArray(data)){
+                            if (data == null || !Array.isArray(data)) {
                                 console.log("data error: data is empty or not an array");
                                 return;
-                            }else {
+                            } else {
                                 console.log("data GOOD");
+                                //if number of .msgRow is equal to number of messages in data, then return
+
+                                console.log("msgTotalSize: " + msgTotalSize);
+                                console.log("data.length: " + data.length);
+                                if (msgTotalSize == data.length) {
+                                    console.log("return");
+                                    return;
+                                } else {
+                                    //if chatWindow has children, remove all children
+                                    $("#chatWindow").empty();
+                                }
+
+
                             }
 
+                            var msgCount = 0;
+
                             //for each message in data
-                            for ( const message of data){
+                            for (const message of data) {
                                 console.log("Loop: " + message.content + " " + message.sender + " " + message.receiver + " " + message.timestamp);
+
+                                msgCount++;
 
                                 var msg = message.content;
                                 var sender = message.sender;
                                 var receiver = message.receiver;
                                 var timestamp = message.timestamp;
+                                var pimage = message.image;
 
                                 var msgRow = document.createElement("div");
                                 msgRow.className = "msgRow";
@@ -257,11 +204,11 @@
 
                                 var msgSide = document.createElement("div");
                                 //set msgSide to msgRight if sender is not current user
-                                if (sender == senderID){
+                                if (sender == senderID) {
                                     msgSide.className = "msgLeft";
-                                }else if (sender == receiverID){
+                                } else if (sender == receiverID) {
                                     msgSide.className = "msgRight";
-                                }else {
+                                } else {
                                     console.log("error: sender id does not match");
                                 }
 
@@ -271,19 +218,26 @@
                                 var userName = document.createElement("div");
                                 userName.className = "userName";
                                 //get name of sender and receiver
-                                if (sender == senderID){
+                                if (sender == senderID) {
                                     userName.innerHTML = senderFullName;
-                                }else if (sender == receiverID){
+                                } else if (sender == receiverID) {
                                     userName.innerHTML = receiverFullName;
-                                }else {
+                                } else {
                                     console.log("error: sender id does not match");
                                 }
 
                                 var profileImg = document.createElement("img");
                                 profileImg.className = "profileImg";
-                                profileImg.src = "https://static.thenounproject.com/png/2416938-200.png";
+                                //get profile image of sender and receiver
+                                if (sender == senderID) {
+                                    profileImg.src = senderImage;
+                                } else if (sender == receiverID) {
+                                    profileImg.src = receiverImage;
+                                } else {
+                                    console.log("error: sender id does not match");
+                                }
 
-                                
+
 
                                 var time = document.createElement("div");
                                 time.className = "time";
@@ -300,11 +254,13 @@
                                 msgContent.className = "msg";
                                 msgContent.innerHTML = msg;
 
-                                
+                                //add msgCount to msgRow, set an attribute to msgRow
+                                msgRow.setAttribute("msgCount", msgCount);
+
 
                                 //set message to left or right
-                                if (sender == senderID){
-                                    
+                                if (sender == senderID) {
+
                                     msgRow.appendChild(msgSpacer);
                                     msgRow.appendChild(msgSide);
                                     msgRow.appendChild(profileImg);
@@ -313,8 +269,8 @@
                                     msgUpper.appendChild(time);
                                     msgSide.appendChild(msgFull);
                                     msgFull.appendChild(msgContent);
-                                    
-                                }else if (sender == receiverID){
+
+                                } else if (sender == receiverID) {
                                     msgRow.appendChild(profileImg);
                                     msgRow.appendChild(msgSide);
                                     msgSide.appendChild(msgUpper);
@@ -323,7 +279,7 @@
                                     msgSide.appendChild(msgFull);
                                     msgFull.appendChild(msgContent);
                                     msgRow.appendChild(msgSpacer);
-                                }else {
+                                } else {
                                     console.log("error: sender id does not match");
                                 }
 
@@ -331,6 +287,8 @@
                                 var chatWindow = document.getElementById("chatWindow");
                                 chatWindow.appendChild(msgRow);
                             }
+
+                            msgTotalSize = msgCount;
                         }
 
 
@@ -351,7 +309,17 @@
                                 success: function (data) {
                                     console.log("success");
                                     //console.log(data);
-                                     location.reload(); //reload the page to display new message
+                                    var chatWindow = document.getElementById("chatWindow");
+
+                                    //clear chat window
+                                    while (chatWindow.firstChild) {
+                                        chatWindow.removeChild(chatWindow.firstChild);
+                                    }
+
+                                    //get new messages
+                                    getMsg();
+
+
                                 },
                                 error: function (data) {
                                     console.log("error");
@@ -359,13 +327,13 @@
                                 }
                             });
                         });
-                        
+
                         function scrollToBottom() {
                             var chatMessages = document.querySelector('.chatMessages');
                             chatMessages.scrollTop = chatMessages.scrollHeight;
                         }
 
-                        window.onload = function() {
+                        window.onload = function () {
                             scrollToBottom();
                         };
                     </script>
