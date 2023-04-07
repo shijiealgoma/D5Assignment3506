@@ -25,12 +25,12 @@
 
                         </div>
                         <!-- user list -->
-                        <div class="userRow" th:each="user: ${allUsers}"  th:id = "${user.id}">
-                            <img  th:src="${user.image}" alt="" class="profileImg" >
-                            <div class="userInfo" >
+                        <div class="userRow" th:each="user: ${allUsers}" th:id="${user.id}">
+                            <img th:src="${user.image}" alt="" class="profileImg">
+                            <div class="userInfo">
                                 <div class="">
                                     <a th:action="@{/userDetail2}" th:object="${user.username}"
-                                        th:onclick="clickUser([[${user.id}]], [[${senderID}]])" method="post">
+                                        th:onclick="clickUser([[${user.id}]], [[${senderID}]],[[${user.firstName + user.lastName}]], [[${senderName}]] )" method="post">
                                         <span class="userName" th:text="${user.firstName}">
                                             First Name
                                         </span>
@@ -48,31 +48,32 @@
                 </div>
                 <!-- login form -->
                 <div class="col-md-7 centerContent chatMain">
-                    <div class="chatMessages">
+                    <div class="chatMessages" id="chatWindow">
                         <div class="msgRow" th:each="message: ${messages}">
                             <img src="https://static.thenounproject.com/png/2416938-200.png" alt="" class="profileImg">
-<!--                            <div class="msgRight" >-->
-                                <div th:class="${message.sender == #httpSession.getAttribute('username')} ? 'msgRight' : 'msgLeft'">
+                            <!--                            <div class="msgRight" >-->
+                            <div
+                                th:class="${message.sender == #httpSession.getAttribute('username')} ? 'msgRight' : 'msgLeft'">
                                 <div class="msgUpper">
                                     <div class="userName">
-                                        <span th:if="${message.sender eq #httpSession.getAttribute('username')}" th:text="${message.sender}"></span>
-                                        <span th:if="${message.sender ne #httpSession.getAttribute('username')}" th:text="${message.sender}"></span>
-<!--                                        <div th:text="${#httpSession.getAttribute('username')}"></div>-->
+                                        <span th:if="${message.sender eq #httpSession.getAttribute('username')}"
+                                            th:text="${message.sender}"></span>
+                                        <span th:if="${message.sender ne #httpSession.getAttribute('username')}"
+                                            th:text="${message.sender}"></span>
+                                        <!--                                        <div th:text="${#httpSession.getAttribute('username')}"></div>-->
 
-<!--                                         <span class="userName" id="receiver" th:text="${message.receiver}">-->
-<!--                                            First Name-->
-<!--                                        </span>-->
-<!--                                        <span class="userName" th:text="${user.lastName}">-->
-<!--                                            Last Name-->
-<!--                                        </span>-->
+                                        <!--                                         <span class="userName" id="receiver" th:text="${message.receiver}">-->
+                                        <!--                                            First Name-->
+                                        <!--                                        </span>-->
+                                        <!--                                        <span class="userName" th:text="${user.lastName}">-->
+                                        <!--                                            Last Name-->
+                                        <!--                                        </span>-->
                                     </div>
                                     <div class="time" th:text="${message.timestamp}">
-                                        12:00
                                     </div>
                                 </div>
                                 <div class="msgFull">
                                     <div class="msg" th:text="${message.content}">
-                                        Hi, how are you?
                                     </div>
                                 </div>
 
@@ -184,31 +185,159 @@
                                 <button type="submit" class="btn btn-primary">Send</button>
                             </div>
 
-
-
                         </div>
                     </form>
                     <script type="text/javascript">
 
                         var receiverID = "";
                         var senderID = "";
+                        var receiverFullName = "";
+                        var senderFullName = "";
 
-                        function clickUser(receiver_id, sender_id) {
-                            
+                        function clickUser(receiver_id, sender_id, receiver_full_name, sender_full_name) {
+
                             receiverID = receiver_id;
                             senderID = sender_id;
+                            receiverFullName = receiver_full_name;
+                            senderFullName = sender_full_name;
                             console.log("receiverID: " + receiverID);
                             console.log("senderID: " + senderID);
+                            console.log("receiverFullName: " + receiverFullName);
+                            console.log("senderFullName: " + senderFullName);
+                            getMsg();
+
+                        }
+
+                        function getMsg() {
+                            $.ajax({
+                                url: '/getMessages',
+                                type: 'POST',
+                                data: {
+                                    receiver: receiverID,
+                                    sender: senderID,
+                                },
+                                success: function (data) {
+                                    console.log("success");
+                                    console.log(data);
+                                    addChatMessage(JSON.parse(data));
+                                },
+                                error: function (data) {
+                                    console.log("error");
+                                    console.log(data);
+                                }
+                            });
+                        }
+
+                        function addChatMessage(data){
+                            //use json data to generate html
+                            //append to chat window
+
+                            //check if data is empty or data is not an array
+                            if (data == null || !Array.isArray(data)){
+                                console.log("data error: data is empty or not an array");
+                                return;
+                            }else {
+                                console.log("data GOOD");
+                            }
+
+                            //for each message in data
+                            for ( const message of data){
+                                console.log("Loop: " + message.content + " " + message.sender + " " + message.receiver + " " + message.timestamp);
+
+                                var msg = message.content;
+                                var sender = message.sender;
+                                var receiver = message.receiver;
+                                var timestamp = message.timestamp;
+
+                                var msgRow = document.createElement("div");
+                                msgRow.className = "msgRow";
+
+                                var msgSpacer = document.createElement("div");
+                                msgSpacer.className = "msgSpacer";
+
+                                var msgSide = document.createElement("div");
+                                //set msgSide to msgRight if sender is not current user
+                                if (sender == senderID){
+                                    msgSide.className = "msgLeft";
+                                }else if (sender == receiverID){
+                                    msgSide.className = "msgRight";
+                                }else {
+                                    console.log("error: sender id does not match");
+                                }
+
+                                var msgUpper = document.createElement("div");
+                                msgUpper.className = "msgUpper";
+
+                                var userName = document.createElement("div");
+                                userName.className = "userName";
+                                //get name of sender and receiver
+                                if (sender == senderID){
+                                    userName.innerHTML = senderFullName;
+                                }else if (sender == receiverID){
+                                    userName.innerHTML = receiverFullName;
+                                }else {
+                                    console.log("error: sender id does not match");
+                                }
+
+                                var profileImg = document.createElement("img");
+                                profileImg.className = "profileImg";
+                                profileImg.src = "https://static.thenounproject.com/png/2416938-200.png";
+
+                                
+
+                                var time = document.createElement("div");
+                                time.className = "time";
+                                //reformat timestamp
+                                var newTime = new Date(timestamp);
+                                //format time in month, day and time
+                                newTime = newTime.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+                                time.innerHTML = newTime;
+
+                                var msgFull = document.createElement("div");
+                                msgFull.className = "msgFull";
+
+                                var msgContent = document.createElement("div");
+                                msgContent.className = "msg";
+                                msgContent.innerHTML = msg;
+
+                                
+
+                                //set message to left or right
+                                if (sender == senderID){
+                                    
+                                    msgRow.appendChild(msgSpacer);
+                                    msgRow.appendChild(msgSide);
+                                    msgRow.appendChild(profileImg);
+                                    msgSide.appendChild(msgUpper);
+                                    msgUpper.appendChild(userName);
+                                    msgUpper.appendChild(time);
+                                    msgSide.appendChild(msgFull);
+                                    msgFull.appendChild(msgContent);
+                                    
+                                }else if (sender == receiverID){
+                                    msgRow.appendChild(profileImg);
+                                    msgRow.appendChild(msgSide);
+                                    msgSide.appendChild(msgUpper);
+                                    msgUpper.appendChild(userName);
+                                    msgUpper.appendChild(time);
+                                    msgSide.appendChild(msgFull);
+                                    msgFull.appendChild(msgContent);
+                                    msgRow.appendChild(msgSpacer);
+                                }else {
+                                    console.log("error: sender id does not match");
+                                }
+
+
+                                var chatWindow = document.getElementById("chatWindow");
+                                chatWindow.appendChild(msgRow);
+                            }
                         }
 
 
-
-
+                        // send message to server
                         const form = document.querySelector('#message-form');
                         form.addEventListener('submit', (event) => {
                             event.preventDefault();
-
-
 
                             var msg = document.getElementById("content").value;
                             console.log("msg: " + msg);
@@ -217,6 +346,7 @@
                                 type: 'POST',
                                 data: {
                                     content: msg,
+                                    receiver: receiverID,
                                 },
                                 success: function (data) {
                                     console.log("success");
