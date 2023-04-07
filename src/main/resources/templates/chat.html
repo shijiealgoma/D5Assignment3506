@@ -29,8 +29,9 @@
                             <img th:src="${user.image}" alt="" class="profileImg">
                             <div class="userInfo">
                                 <div class="">
-                                    <a th:action="@{/userDetail2}" th:object="${user.username}" th:onclick="clickUser([[${user.id}]], [[${senderID}]],
-                                        [[${user.firstName + user.lastName}]], [[${senderName}]],
+                                    <a th:action="@{/userDetail2}" th:object="${user.username}" 
+                                    th:onclick="clickUser([[${user.id}]], [[${senderID}]],
+                                        [[${user.firstName + ' '+user.lastName}]], [[${senderName}]],
                                         [[${user.image}]], [[${senderImage}]]
                                         )" method="post">
                                         <span class="userName" th:text="${user.firstName}">
