@@ -221,6 +221,7 @@
                                 success: function (data) {
                                     console.log("success");
                                     //console.log(data);
+                                     location.reload(); //reload the page to display new message
                                 },
                                 error: function (data) {
                                     console.log("error");
@@ -228,6 +229,15 @@
                                 }
                             });
                         });
+                        
+                        function scrollToBottom() {
+                            var chatMessages = document.querySelector('.chatMessages');
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+
+                        window.onload = function() {
+                            scrollToBottom();
+                        };
                     </script>
                 </div>
             </div>
