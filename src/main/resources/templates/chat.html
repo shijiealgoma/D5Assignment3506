@@ -1,3 +1,10 @@
+<!-- /*******************
+D5 Assignment 3506
+Shijie Sun
+Lei Xie
+Shuming Lin
+Duc Le
+********************/ -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
@@ -284,9 +291,16 @@
                                     console.log("error: sender id does not match");
                                 }
 
-
+                                //append msgRow to chatWindow
                                 var chatWindow = document.getElementById("chatWindow");
                                 chatWindow.appendChild(msgRow);
+
+
+                                //jquery scroll to bottom of chat window
+                                var chatWindow = document.getElementById("chatWindow");
+                                var height = chatWindow.scrollHeight;
+                                $('#chatWindow').animate({ scrollTop: height }, 0);
+
                             }
 
                             msgTotalSize = msgCount;
@@ -316,6 +330,10 @@
                                     while (chatWindow.firstChild) {
                                         chatWindow.removeChild(chatWindow.firstChild);
                                     }
+
+                                    //jquery clear input
+                                    $("input#content").val("");
+
 
                                     //get new messages
                                     getMsg();
